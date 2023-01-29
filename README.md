@@ -1,36 +1,36 @@
 # Full Automation Lights
 
-## Présentation
+## Introduction
 
-Vous en avez marre de vous lever après vous être confortablement installer dans votre lit car vous vous demandez si vous avez bien éteint la lumière du salon ? Vous en avez assez de remarquer le matin que la lumière de la salle de bain est restée allumée toute la nuit ? Cela vous aggace être ébloui par une lumière trop forte dans le couloir en pleine nuit lorsque vous allez faire vos besoins naturels. Ne vous inquiétez plus ! Grace à ce script magique (mais pas trop quand même), vous allez pouvoir automatiser tout cela en un rien de temps !
+Are you tired of getting up from your comfortable bed to check if you turned off the living room light? Are you annoyed by finding the bathroom light on all night? Are you disturbed by bright hallway lights in the middle of the night when you have to use the bathroom? Don't worry! With this magic (but not too much) script, you can automate all of this in no time!
 
-Ce script basé sur AppDaemon fonctionne avec Home Assistant. Il est conçu pour contrôler automatiquement l'éclairage de votre maison en fonction de différents critères tels la luminosité et l'élévation du soleil. Plus besoin de se prendre la tête avec des commandes, votre maison s'occupe de tout ! Et en plus, c'est open-source, vous pourrez donc l'améliorer à votre guise ou l'adapter à vos besoins.
+This AppDaemon-based script works with Home Assistant. It's designed to automatically control your home lighting based on different criteria such as brightness and sun elevation. No need to worry about commands, your home will take care of everything! And it's open-source, so you can improve it as you like or adapt it to your needs.
 
-N'hésitez plus et installez-le pour vivre dans une maison éclairée à la perfection ! Et si jamais vous rencontrez des problèmes, n'hésitez pas à consulter notre documentation, elle est faite pour ça !
+Don't hesitate any longer and install it to live in a perfectly lit home! And if you encounter any problems, don't hesitate to consult our documentation, it's there for that!
 
-## Fonctionnalités
+## Features
 
-- Occupation de la pièce: Le script utilise des capteurs d'occupation pour détecter la présence de personnes dans une pièce et ajuste en conséquence l'éclairage. Il est possible de définir des limites de luminosité et un hystérésis pour chaque pièce. Il y a également une option pour éteindre les lumières automatiquement si la luminosité naturelle dans la pièce est élevée.
-- Lumière naturelle: Le script utilise la position du soleil pour ajuster automatiquement la luminosité et la température de couleur des lumières en fonction de l'élévation du soleil. Il est possible de définir différents modes de lumière naturelle pour chaque pièce.
-- Scènes: Le script permet de déclencher automatiquement des scènes en fonction de l'état d'un déclencheur spécifique, comme par exemple l'allumage d'un téléviseur. Il est possible de définir différentes scènes pour chaque pièce.
-- Configuration pour plusieurs pièces: il est possible de configurer plusieurs pièces avec différentes options pour l'automatisation de la lumière et les scènes. Il y a une configuration pour le salon et une autre pour la cuisine dans l'exemple fourni.
-- Configurations avancées: Le script offre une grande flexibilité de configuration pour les utilisateurs expérimentés, permettant de définir des paramètres tels que les limites de luminosité, les modes de lumière naturelle, les scènes et les capteurs d'occupation pour chaque pièce de la maison.
+- Room Occupancy: The script uses occupancy sensors to detect the presence of people in a room and adjusts the lighting accordingly. It is possible to set brightness limits and hysteresis for each room. There is also an option to turn off lights automatically if the natural light in the room is high.
+- Natural Light: The script uses the position of the sun to automatically adjust the brightness and color temperature of the lights based on the sun's elevation. It is possible to set different natural light modes for each room.
+- Scenes: The script allows for automatically triggering scenes based on the state of a specific trigger, such as the turning on of a TV. It is possible to set different scenes for each room.
+- Configuration for multiple rooms: it is possible to configure multiple rooms with different options for lighting automation and scenes. There is a configuration for the living room and another for the kitchen in the provided example.
+- Advanced Configuration: The script offers great configuration flexibility for experienced users, allowing for setting parameters such as brightness limits, natural light modes, scenes, and occupancy sensors for each room in the house.
 
-## Prérequis
+## Prerequisites
 
-- Home Assistant : Il est nécessaire d'avoir une installation fonctionnelle de Home Assistant pour utiliser ce script.
-- AppDaemon : AppDaemon est un add-on pour Home Assistant qui permet d'exécuter des scripts Python en arrière-plan. Il est nécessaire d'installer et de configurer AppDaemon pour utiliser ce script.
+- Home Assistant: A functional installation of Home Assistant is required to use this script.
+- AppDaemon: AppDaemon is an add-on for Home Assistant that allows you to run Python scripts in the background. AppDaemon must be installed and configured to use this script.
 
 ## Installation
 
-Une fois que vous avez Home Assistant et AppDaemon en cours d'exécution, vous pouvez installer cette application en suivant les étapes suivantes:
+Once you have Home Assistant and AppDaemon running, you can install this application by following these steps:
 
-1. Téléchargez le fichier FullAutomationLights.py et placez-le dans le répertoire "apps" d'AppDaemon.
-2. Ajoutez la configuration suivante à votre fichier apps.yaml. Ce fichier se trouve généralement dans le répertoire "apps" d'AppDaemon.
+1) Download the FullAutomationLights.py file and place it in the "apps" directory of AppDaemon.
+2) Add the following configuration to your apps.yaml file. This file is usually located in the "apps" directory of AppDaemon.
 
 ## Configuration
 
-Exemple de configuration minimale pour allumer et éteindre la lumière “light.living_room” dans la pièce “living_room” lorsqu’un mouvement est détecté avec le capteur “binary_sensor.living_room_motion”. "light.living_room" est allumé avec un simple “turn_on” sans paramètre. :
+Example of minimum configuration to turn on and off the light "light.living_room" in the room "living_room" when a motion is detected with the sensor "binary_sensor.living_room_motion". "light.living_room" is turned on with a simple "turn_on" without any parameters :
 
 ```yaml
 FullAutomationLights:
@@ -43,7 +43,7 @@ FullAutomationLights:
 ```
 ---
 
-Le même exemple de configuration avec la fonction lumière naturelle. Ici ‘natural_lighting’ est défini pour activer la fonctionnalité. Par défaut, un “mode” de lumière naturelle nommé “default” est créé. Dans pièce “living_room”, la lumière “light.living_room” est lié à ce mode :
+Example of a configuration with the natural light feature. Here, "natural_lighting" is set to turn on the feature. By default, a natural light "mode" named "default" is created. In the "living_room" room, the "light.living_room" is linked to this mode :
 
 ```yaml
 FullAutomationLights:
@@ -59,15 +59,15 @@ FullAutomationLights:
           lights_entity: light.living_room
 ```
 ---
-La configuration avancée suivante définit les transitions entre les scènes et l'éclairage naturel avec un temps de transition de 5 secondes pour les scènes et 30 secondes pour l'éclairage naturel.
+The following advanced configuration sets the transitions between scenes and natural lighting with a transition time of 5 seconds for scenes and 30 seconds for natural lighting.
 
-L'éclairage naturel est configuré avec différents paramètres tels que l'entité associée au soleil, les limites de l'angle d'élévation pour la luminosité et la température en Kelvin, ainsi que les modes "nl1" et "nl2" définis avec leur propre plage de luminosité et de température en Kelvin.
+Natural lighting is configured with different parameters such as the entity associated with the sun, the limits of the elevation angle for brightness and temperature in Kelvin, as well as the "nl1" and "nl2" modes defined with their own range of brightness and temperature in Kelvin.
 
-Ensuite, la configuration définit les pièces "living_room" et "kitchen". Pour chaque pièce, il définit les entités associées à la présence, à la luminance, à la limite de luminance et aux lumières. Il définit également les modes d'éclairage naturel et les scènes associées à ces pièces. Par exemple, pour "living_room", il définit les scènes associées à un éclairage ambiant pour la TV et la TV en marche. Dans les deux pièces, des groupes de lumières differentes sont assossiées aux deux configuration de lumières naturelles "nl1" et "nl2".
+Then, the configuration defines the rooms "living_room" and "kitchen". For each room, it defines the entities associated with presence, luminance, luminance limit, and lights. It also defines the natural lighting modes and the scenes associated with these rooms. For example, for "living_room", it defines the scenes associated with ambient lighting for TV and TV on. In both rooms, different light groups are associated with the two natural lighting configurations "nl1" and "nl2".
 
-"boost_brightness_pct" est utilisé dans les paramètres de "natural_lighting" de "living_room". Il représente le pourcentage de boost de luminosité pour une lumière spécifique. Le mode "nl1" a un boost de luminosité de -30%. Cela signifie que la luminosité sera réduite de 30% pour les lumières spécifiées dans l'entité "lights_entity" (light.living_room_group_1).
+"boost_brightness_pct" is used in the "natural_lighting" settings of "living_room". It represents the boost percentage of brightness for a specific light. The "nl1" mode has a brightness boost of -30%. This means that the brightness will be reduced by 30% for the lights specified in the "lights_entity" (light.living_room_group_1).
 
-"hight_luminance_off_light" est également défini à "true" dans "living_room". Cela signifie que, contrairement à "kitchen", si la luminosité captée par "sensor.living_room_luminance" est supérieur à 50 + 5, la lumière s'éteindra. Vu que cette fonctionnalité n'est pas utilisée dans "kitchen", "luminance_hysteresis" n'est pas défini et est donc égal à sa valeur par défaut, à savoir 0.
+"high_luminance_off_light" is also set to "true" in "living_room". This means that, unlike in "kitchen", if the luminance captured by "sensor.living_room_luminance" is above 50 + 5, the light will turn off. Since this feature is not used in "kitchen", "luminance_hysteresis" is not defined and is therefore equal to its default value, which is 0.
 
 ```yaml
 FullAutomationLights:
@@ -127,25 +127,25 @@ FullAutomationLights:
           lights_entity: light.table
 ```
 
-### La configuration de FullAutomationLights comprend les paramètres suivants :
+### The FullAutomationLights configuration includes the following settings :
 
-- `module:` et `class:` Ces paramètres indiquent à AppDaemon où trouver le fichier FullAutomationLights.py et quelle classe utiliser pour démarrer l'application.
-- `debug:` (Optionel) [boolean] Cette option permet d'activer ou de désactiver les messages de débogage de l'application. Il est conseillé de la mettre à "true" lors de la première installation pour vérifier que tout fonctionne correctement. La fonction débug est bavarde et ralenti le script. Pour la mise en production, il est préférable de la désactiver. Défaut : false
-- `transitions:` (Optionel) Cette section permet de définir des transitions personalisées.
-	- `init:` (Optionel) [integer] durée de la transition en secondes lors de l’initialisation du script. Défaut : 0
-	- `occupancy:` (Optionel) [integer] durée de la transition en secondes lors du changement d’état dû au capteur “occupancy_entity”. Défaut : 1
-	- `low_light:` (Optionel) [integer] durée de la transition en secondes lors du changement d’état dû au capteur “luminance_entity”. Défaut : 15
-	- `scenes:` (Optionel) [integer] durée de la transition en secondes lors du changement de scène. Défaut : 5
-	- `natural_lighting:` (Optionel) [integer] durée de la transition en secondes lors du changement de la lumière naturelle. Défaut : 10
-	- `off:` (Optionel) [integer] durée de la transition en secondes lors de l’extinction des lampes. Défaut : 3
-- `natural_lighting:` (Optionel) Cette section permet de configurer la gestion de la lumière naturelle. Elle comprend plusieurs sous-paramètres.
-	- `sun_entity:` (Optionel) [string] Entité soleil de Home Assistant qui est utilisée pour déterminer l'élévation du soleil. Défaut : sun.sun
-	- `min_elevation_for_brightness:` et `max_elevation_for_brightness:` : (Optionel) [integer] Ces paramètres déterminent la plage d'élévation du soleil en degré pendant laquelle la luminosité des lumières est ajustée. Défaut : -20 et 20
-	- `min_elevation_for_kelvin:` et `max_elevation_for_kelvin:` : (Optionel) [integer] Ces paramètres déterminent la plage d'élévation du soleil en degré pendant laquelle la température de couleur des lumières est ajustée. Défaut : 0 et 20
-	- `modes:` (Optionel) Cette section permet de définir des modes de lumière naturelle pour les différentes plages d'élévation du soleil. Chaque mode peut avoir les paramètres suivants :
-    	- `name:` Le nom du mode. Ce nom est utilisé pour lier les lumières à un mode dans la configuration des pièces.
-    	- `max_brightness:` et `min_brightness:` (Optionel) [integer] Les limites de luminosité pour ce mode. Défaut : 255 et 100
-    	- `max_kelvin:` et `min_kelvin:` (Optionel) [integer] Les limites de température de couleur pour ce mode. Défaut : 5500 et 2000
+- `module:` et `class:` These parameters tell AppDaemon where to find the FullAutomationLights.py file and which class to use to start the application.
+- `debug:` (Optionel) [boolean] This option enables or disables the debugging messages from the application. It is recommended to set it to "true" during the first installation to check that everything is working correctly. The debug function is chatty and slows down the script. For production, it is best to deactivate it. Default: false
+- `transitions:` (Optionel) This section allows for defining custom transitions.
+	- `init:` (Optionel) [integer] duration of the transition in seconds when the script is initialized. Default: 0
+	- `occupancy:` (Optionel) [integer] duration of the transition in seconds when changing state due to the "occupancy_entity" sensor. Default: 1
+	- `low_light:` (Optionel) [integer] Duration of the transition in seconds when changing state due to the "luminance_entity" sensor. Default: 15
+	- `scenes:` (Optionel) [integer] duration of the transition in seconds when changing the scene. Default: 5
+	- `natural_lighting:` (Optionel) [integer] duration of the transition in seconds when changing the natural lighting. Default: 10
+	- `off:` (Optionel) [integer] duration of the transition in seconds when turning off the lights. Default: 3
+- `natural_lighting:` (Optionel) This section allows configuring natural light management. It includes several sub-parameters.
+	- `sun_entity:` (Optionel) [string] Sun entity from Home Assistant is used to determine the sun elevation. Default: sun.sun
+	- `min_elevation_for_brightness:` et `max_elevation_for_brightness:` : (Optionel) [integer] These parameters determine the range of sun elevation in degrees during which the brightness of the lights is adjusted. Default: -20 and 20
+	- `min_elevation_for_kelvin:` et `max_elevation_for_kelvin:` : (Optionel) [integer] These parameters determine the range of sun elevation in degrees during which the color temperature of the lights is adjusted. Default: 0 and 20
+	- `modes:` (Optionel) This section allows for defining natural light modes for different ranges of sun elevation. Each mode can have the following parameters:
+    	- `name:` The name of the mode. This name is used to link lights to a mode in the room configuration.
+    	- `max_brightness:` et `min_brightness:` (Optionel) [integer] The brightness limits for this mode. Default: 255 and 100
+    	- `max_kelvin:` et `min_kelvin:` (Optionel) [integer] The color temperature limits for this mode. Default: 5500 and 2000
 - `rooms:` Cette section permet de spécifier les paramètres de chaque pièce de la maison.
 	- `nom de la pièce:`
 		- `occupancy_entity:` [string] Entité utilisée pour détecter la présence dans la pièce. Il peut s'agir d'un capteur de mouvement, d'un interrupteur, etc.
