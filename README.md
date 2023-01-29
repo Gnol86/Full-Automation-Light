@@ -2,11 +2,11 @@
 
 ## Présentation
 
-Vous en avez marre de vous lever à 2h du matin pour éteindre la lumière de votre chambre d'amis qui est encore allumée ? Vous en avez assez de devoir vous rappeler de mettre en marche votre éclairage extérieur lorsque le soleil se couche ? Ne vous inquiétez plus ! Grâce à notre application magique (mais pas trop quand même), vous allez pouvoir automatiser tout cela en un rien de temps !
+Vous en avez marre de vous lever à 2h du matin pour éteindre la lumière de votre chambre d'amis qui est encore allumée ? Vous en avez assez de devoir vous rappeler de mettre en marche votre éclairage extérieur lorsque le soleil se couche ? Ne vous inquiétez plus ! Ce script magique (mais pas trop quand même), vous allez pouvoir automatiser tout cela en un rien de temps !
 
-Notre application est basée sur AppDaemon et fonctionne en conjonction avec Home Assistant. Elle est conçue pour contrôler automatiquement l'éclairage de votre maison en fonction de différents critères tels que l'heure, la luminosité extérieure et l'élévation du soleil. Plus besoin de se prendre la tête avec les commandes, notre application s'occupe de tout ! Et en plus, elle est open-source, vous pourrez donc l'améliorer à votre guise ou l'adapter à vos besoins.
+Ce script basée sur AppDaemon et fonctionne en conjonction avec Home Assistant. Il est conçue pour contrôler automatiquement l'éclairage de votre maison en fonction de différents critères tels que l'heure, la luminosité extérieure et l'élévation du soleil. Plus besoin de se prendre la tête avec les commandes, votre maison s'occupe de tout ! Et en plus, c'est open-source, vous pourrez donc l'améliorer à votre guise ou l'adapter à vos besoins.
 
-Alors n'hésitez plus et installez notre application pour vivre dans une maison éclairée à la perfection ! Et si jamais vous rencontrez des problèmes, n'hésitez pas à consulter notre documentation, elle est là pour ça !
+N'hésitez plus et installez le pour vivre dans une maison éclairée à la perfection ! Et si jamais vous rencontrez des problèmes, n'hésitez pas à consulter notre documentation, elle est là pour ça !
 
 ## Fonctionnalités
 
@@ -44,10 +44,8 @@ FullAutomationLights:
       occupancy_entity: binary_sensor.living_room_motion
       lights_entity: light.living_room
 ```
-
-<aside>
-📌 "light.living_room" est allumé avec un simple “light.turn_on” sans parramètre. Il est possible de définir manuellement la luminosité et la température du blanc ou la couleur.
-</aside>
+> "light.living_room" est allumé avec un simple “light.turn_on” sans parramètre. Il est possible de définir manuellement la luminosité et la température du blanc ou la couleur.
+>
 
 ---
 
@@ -72,62 +70,39 @@ FullAutomationLights:
 
 La configuration de FullAutomationLights comprend les paramètres suivants :
 
-- **`module`** et **`class`** Ces paramètres indiquent à AppDaemon où trouver le fichier FullAutomationLights.py et quelle classe utiliser pour démarrer l'application.
-- **`debug`** : (Optionel) [boolean] Cette option permet d'activer ou de désactiver les messages de débogage de l'application. Il est conseillé de la mettre à "true" lors de la première installation pour vérifier que tout fonctionne correctement. La fonction débug est bavarde et ralenti le script. Pour la mise en production, il est préférable de la désactiver. Défaut : false
-- **`transitions`** : (Optionel) Cette section permet de définir des transitions personalisées.
-- **`natural_lighting`** : (Optionel) Cette section permet de configurer la gestion de la lumière naturelle. Elle comprend plusieurs sous-paramètres.
-- **`rooms`** : Cette section permet de spécifier les paramètres de chaque pièce de la maison. Pour chaque pièce.
-
-### `**transitions**`
-
-- **`init`** : (Optionel) [integer] durée de la transition en secondes lors de l’initialisation du script. Défaut : 0
-- **`occupancy`** : (Optionel) [integer] durée de la transition en secondes lors changement d’état du au capteur “occupancy_entity”. Défaut : 1
-- **`low_light`** : (Optionel) [integer] durée de la transition en secondes lors changement d’état du au capteur “luminance_entity”. Défaut : 15
-- **`scenes`** : (Optionel) [integer] {5} durée de la transition en secondes lors changement de scène.
-- **`natural_lighting`** : (Optionel) [integer] {10} durée de la transition en secondes lors changement de la numière naturel.
-- **`off`** : (Optionel) [integer] {3} durée de la transition en secondes lors de l’extinction des lampes.
-
-> Exemple avec les valeurs par défaut.
-> 
-
-```yaml
-transitions:
-  init: 0
-  occupancy: 1
-  low_light: 15
-  scenes: 5
-  natural_lighting: 10
-  off: 3
-```
-
-### **`natural_lighting`**
-
-- **`sun_entity` :** (Optionel) [string] {sun.sun} L'entité de soleil de Home Assistant qui est utilisée pour déterminer l'élévation du soleil.
-- **`min_elevation_for_brightness`** et **`max_elevation_for_brightness`** : (Optionel) [int] {-20 et 20} Ces paramètres déterminent la plage d'élévation du soleil en degré pendant laquelle la luminosité des lumières est ajustée en fonction de celle-ci.
-- **`min_elevation_for_kelvin`** et **`max_elevation_for_kelvin`** : (Optionel) [int] {0 et 20} Ces paramètres déterminent la plage d'élévation du soleil en degré pendant laquelle la température de couleur des lumières est ajustée en fonction de celle-ci.
-- **`modes`** : (Optionel) Cette section permet de définir des modes de lumière pour les différentes plages d'élévation du soleil. Chaque mode peut avoir les paramètres suivants :
-    - **`name`** : Le nom du mode. Ce nom est utilisé pour lier les lumières à un mode dans la configuration des pièces.
-    - **`max_brightness`** et **`min_brightness`** : Les limites de luminosité pour ce mode.
-    - **`max_kelvin`** et **`min_kelvin`** : Les limites de température de couleur pour ce mode.
-
-### Pièces
-
-La section "rooms" de la configuration permet de spécifier les paramètres de chaque pièce de la maison. Pour chaque pièce, vous devez spécifier les entités Home Assistant suivantes:
-
-- occupancy_entity: cette entité est utilisée pour détecter la présence dans la pièce. Il peut s'agir d'un capteur de mouvement, d'un bouton-poussoir, etc.
-- luminance_entity: cette entité est utilisée pour mesurer la luminosité de la pièce. Il peut s'agir d'un capteur de luminosité, d'un capteur de lumière, etc.
-- luminance_limit: cette valeur est utilisée pour définir un seuil de luminosité en dessous duquel les lumières de la pièce seront automatiquement allumées.
-- luminance_hysteresis: cette valeur est utilisée pour définir un intervalle de luminosité autour de luminance_limit, dans lequel les lumières de la pièce seront automatiquement allumées ou éteintes.
-- hight_luminance_off_light: cette valeur est utilisée pour définir si les lumières de la pièce doivent être éteintes automatiquement en cas de luminosité élevée (supérieure à luminance_limit + luminance_hysteresis).
-- lights_entity: cette entité est utilisée pour contrôler les lumières de la pièce. Il peut s'agir d'un groupe de lumières, d'une lumière individuelle, etc.
-- natural_lighting: cette section permet de spécifier les paramètres de l'éclairage naturel pour chaque pièce. Il est possible de spécifier différents modes d'éclairage (name) avec différents paramètres de luminosité et de température de couleur. Il est également possible de spécifier des entités de lumière individuelles pour chaque mode d'éclairage.
-    - La sous-section "name" permet de spécifier le nom de l'éclairage naturel que l'on souhaite utiliser. Il est possible de définir plusieurs noms différents en fonction des besoins de l'utilisateur, par exemple "primaire" et "secondaire".
-    - La sous-section "lights_entity" permet de définir l'entité de l'éclairage qui sera contrôlée en fonction de l'élévation du soleil. Il est possible de définir plusieurs entités différentes en fonction des besoins de l'utilisateur, par exemple "light.salon_primaire" et "light.salon_secondaire".
-    - Il existe également une option "boost_brightness_pct" qui permet d'augmenter ou de diminuer la luminosité de l'éclairage en pourcentage.
-- "scenes" dans "rooms" permet de définir des scénarios spécifiques pour chaque pièce. Chacun des scénarios est défini par une "scene_entity", une "scene_trigger" et une "scene_trigger_value".
-    - "scene_entity" est l'entité Home Assistant qui représente la scène que l'on souhaite activer. Cette entité peut être une scène prédéfinie dans Home Assistant ou une scène personnalisée créée par l'utilisateur.
-    - "scene_trigger" est l'entité Home Assistant qui déclenche l'activation de la scène définie dans "scene_entity". Cette entité peut être un interrupteur, un capteur ou tout autre élément pouvant envoyer une commande à Home Assistant.
-    - "scene_trigger_value" est la valeur que doit prendre "scene_trigger" pour que la scène définie dans "scene_entity" soit activée. Par exemple, si "scene_trigger_value" est défini comme "on", la scène ne sera activée que lorsque "scene_trigger" passe à l'état "on".
+- `module` et `class` Ces paramètres indiquent à AppDaemon où trouver le fichier FullAutomationLights.py et quelle classe utiliser pour démarrer l'application.
+- `debug` : (Optionel) [boolean] Cette option permet d'activer ou de désactiver les messages de débogage de l'application. Il est conseillé de la mettre à "true" lors de la première installation pour vérifier que tout fonctionne correctement. La fonction débug est bavarde et ralenti le script. Pour la mise en production, il est préférable de la désactiver. Défaut : false
+- `transitions` : (Optionel) Cette section permet de définir des transitions personalisées.
+	- `init` : (Optionel) [integer] durée de la transition en secondes lors de l’initialisation du script. Défaut : 0
+	- `occupancy` : (Optionel) [integer] durée de la transition en secondes lors changement d’état du au capteur “occupancy_entity”. Défaut : 1
+	- `low_light` : (Optionel) [integer] durée de la transition en secondes lors changement d’état du au capteur “luminance_entity”. Défaut : 15
+	- `scenes` : (Optionel) [integer] durée de la transition en secondes lors changement de scène. Défaut : 5
+	- `natural_lighting` : (Optionel) [integer] durée de la transition en secondes lors changement de la numière naturel. Défaut : 10
+	- `off` : (Optionel) [integer] durée de la transition en secondes lors de l’extinction des lampes. Défaut : 3
+- `natural_lighting` : (Optionel) Cette section permet de configurer la gestion de la lumière naturelle. Elle comprend plusieurs sous-paramètres.
+	- `sun_entity` : (Optionel) [string] L'entité de soleil de Home Assistant qui est utilisée pour déterminer l'élévation du soleil. Défaut : sun.sun
+	- `min_elevation_for_brightness` et `max_elevation_for_brightness` : (Optionel) [int] Ces paramètres déterminent la plage d'élévation du soleil en degré pendant laquelle la luminosité des lumières est ajustée en fonction de celle-ci. Défaut : -20 et 20
+	- `min_elevation_for_kelvin` et `max_elevation_for_kelvin` : (Optionel) [int] Ces paramètres déterminent la plage d'élévation du soleil en degré pendant laquelle la température de couleur des lumières est ajustée en fonction de celle-ci. Défaut : 0 et 20
+	- `modes` : (Optionel) Cette section permet de définir des modes de lumière pour les différentes plages d'élévation du soleil. Chaque mode peut avoir les paramètres suivants :
+    	- `name` : Le nom du mode. Ce nom est utilisé pour lier les lumières à un mode dans la configuration des pièces.
+    	- `max_brightness` et `min_brightness` : (Optionel) [int] Les limites de luminosité pour ce mode. Défaut : 255 et 100
+    	- `max_kelvin` et `min_kelvin` : (Optionel) [int] Les limites de température de couleur pour ce mode. Défaut : 5500 et 2000
+- `rooms` : Cette section permet de spécifier les paramètres de chaque pièce de la maison. Pour chaque pièce.
+	- `nom de la pièce`
+		- occupancy_entity: cette entité est utilisée pour détecter la présence dans la pièce. Il peut s'agir d'un capteur de mouvement, d'un bouton-poussoir, etc.
+		- luminance_entity: cette entité est utilisée pour mesurer la luminosité de la pièce. Il peut s'agir d'un capteur de luminosité, d'un capteur de lumière, etc.
+		- luminance_limit: cette valeur est utilisée pour définir un seuil de luminosité en dessous duquel les lumières de la pièce seront automatiquement allumées.
+		- luminance_hysteresis: cette valeur est utilisée pour définir un intervalle de luminosité autour de luminance_limit, dans lequel les lumières de la pièce seront automatiquement allumées ou éteintes.
+		- hight_luminance_off_light: cette valeur est utilisée pour définir si les lumières de la pièce doivent être éteintes automatiquement en cas de luminosité élevée (supérieure à luminance_limit + luminance_hysteresis).
+		- lights_entity: cette entité est utilisée pour contrôler les lumières de la pièce. Il peut s'agir d'un groupe de lumières, d'une lumière individuelle, etc.
+		- natural_lighting: cette section permet de spécifier les paramètres de l'éclairage naturel pour chaque pièce. Il est possible de spécifier différents modes d'éclairage (name) avec différents paramètres de luminosité et de température de couleur. Il est également possible de spécifier des entités de lumière individuelles pour chaque mode d'éclairage.
+    		- La sous-section "name" permet de spécifier le nom de l'éclairage naturel que l'on souhaite utiliser. Il est possible de définir plusieurs noms différents en fonction des besoins de l'utilisateur, par exemple "primaire" et "secondaire".
+    		- La sous-section "lights_entity" permet de définir l'entité de l'éclairage qui sera contrôlée en fonction de l'élévation du soleil. Il est possible de définir plusieurs entités différentes en fonction des besoins de l'utilisateur, par exemple "light.salon_primaire" et "light.salon_secondaire".
+    		- Il existe également une option "boost_brightness_pct" qui permet d'augmenter ou de diminuer la luminosité de l'éclairage en pourcentage.
+		- "scenes" dans "rooms" permet de définir des scénarios spécifiques pour chaque pièce. Chacun des scénarios est défini par une "scene_entity", une "scene_trigger" et une "scene_trigger_value".
+    		- "scene_entity" est l'entité Home Assistant qui représente la scène que l'on souhaite activer. Cette entité peut être une scène prédéfinie dans Home Assistant ou une scène personnalisée créée par l'utilisateur.
+    		- "scene_trigger" est l'entité Home Assistant qui déclenche l'activation de la scène définie dans "scene_entity". Cette entité peut être un interrupteur, un capteur ou tout autre élément pouvant envoyer une commande à Home Assistant.
+    		- "scene_trigger_value" est la valeur que doit prendre "scene_trigger" pour que la scène définie dans "scene_entity" soit activée. Par exemple, si "scene_trigger_value" est défini comme "on", la scène ne sera activée que lorsque "scene_trigger" passe à l'état "on".
         
         > Il est possible de définir plusieurs scénarios pour chaque pièce en ajoutant plusieurs blocs "scenes" dans la configuration.
         Exemple :
