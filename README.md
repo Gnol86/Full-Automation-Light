@@ -2,7 +2,7 @@
 
 ## Présentation
 
-Vous en avez marre de vous lever à 2h du matin pour vérifier si la lumière de votre chambre d'amis est encore allumée ? Vous en avez assez de devoir vous rappeler de d'activer votre éclairage extérieur lorsque le soleil se couche ? Ne vous inquiétez plus ! grace à ce script magique (mais pas trop quand même), vous allez pouvoir automatiser tout cela en un rien de temps !
+Vous en avez marre de vous lever après vous être confortablement installer dans votre lit car vous vous demandez si vous avez bien éteint la lumière du salon ? Vous en avez assez de remarquer le matin que la lumière de la salle de bain est restée allumée toute la nuit ? Cela vous aggace être ébloui par une lumière trop forte dans le couloir en pleine nuit lorsque vous allez faire vos besoins naturels. Ne vous inquiétez plus ! Grace à ce script magique (mais pas trop quand même), vous allez pouvoir automatiser tout cela en un rien de temps !
 
 Ce script basé sur AppDaemon fonctionne avec Home Assistant. Il est conçu pour contrôler automatiquement l'éclairage de votre maison en fonction de différents critères tels la luminosité et l'élévation du soleil. Plus besoin de se prendre la tête avec des commandes, votre maison s'occupe de tout ! Et en plus, c'est open-source, vous pourrez donc l'améliorer à votre guise ou l'adapter à vos besoins.
 
