@@ -177,22 +177,31 @@ scenes:
    scene_trigger_value: "on"
 ```
         
-        > Ce qui signifie :
-        Si le switch "android_tv_ambilight_hue" est allumé, la scène "salon_ambilight" est activée.
-        Si le media player "android_tv" est allumé, la scène "salon_tv" est activée.
-        > 
-        
-        > Notez que les scènes sont dans un ordre prioritaire. Si les deux "trigger" sont actifs, c’est "scene.salon_ambilight" qui sera activée.
-        > 
+Ce qui signifie :
+Si le switch "android_tv_ambilight_hue" est allumé, la scène "salon_ambilight" est activée.
+Si le media player "android_tv" est allumé, la scène "salon_tv" est activée.
 
-Exemple de configuration minimal :
+Notez que les scènes sont dans un ordre prioritaire. Si les deux "trigger" sont actifs, c’est "scene.salon_ambilight" qui sera activée.
 
-```yaml
-rooms:
-	salon:
-	  occupancy_entity: input_boolean.salon_presence
-	  lights_entity: light.salon
-```
+## Ordre des opérations
+
+- Présence dans la pièce ?
+	- Oui
+		- Luminosité faible ?
+		- Oui
+			- Scène configurée et active ?
+			- Oui
+				- Lancement de la scène active
+			- Non
+				- Lumière naturelle configurée ?
+				- Oui
+					- Allume la lumière en fonction de la lumière naturelle et l'adapte le temps qu'elle est allumée
+				- Non
+					- Allume simplement la lumière
+		- Non
+			- Eteindre si `hight_luminance_off_light` = `true`
+	- Non
+		- Eteindre
 
 ## Pistes d'amélioration future
 
