@@ -108,12 +108,12 @@ La configuration de FullAutomationLights comprend les paramètres suivants :
         
 ```yaml
 scenes:
-	- scene_entity: scene.salon_ambilight
-		scene_trigger: switch.android_tv_ambilight_hue
-		scene_trigger_value: "on"
-	- scene_entity: scene.salon_tv
-		scene_trigger: media_player.android_tv
-		scene_trigger_value: "on"
+ - scene_entity: scene.salon_ambilight
+   scene_trigger: switch.android_tv_ambilight_hue
+   scene_trigger_value: "on"
+ - scene_entity: scene.salon_tv
+   scene_trigger: media_player.android_tv
+   scene_trigger_value: "on"
 ```
         
         > Ce qui signifie :
