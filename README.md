@@ -30,8 +30,7 @@ Une fois que vous avez Home Assistant et AppDaemon en cours d'exécution, vous p
 
 ## Configuration
 
-> Exemple de configuration minimale pour allumer et éteindre la lumière “light.living_room” dans la pièce “living_room” lorsqu’un mouvement est détecté avec le capteur “binary_sensor.living_room_motion”. "light.living_room" est allumé avec un simple “turn_on” sans paramètre. :
-> 
+Exemple de configuration minimale pour allumer et éteindre la lumière “light.living_room” dans la pièce “living_room” lorsqu’un mouvement est détecté avec le capteur “binary_sensor.living_room_motion”. "light.living_room" est allumé avec un simple “turn_on” sans paramètre. :
 
 ```yaml
 FullAutomationLights:
@@ -42,13 +41,9 @@ FullAutomationLights:
       occupancy_entity: binary_sensor.living_room_motion
       lights_entity: light.living_room
 ```
-> 
->
-
 ---
 
-> Le même exemple de configuration avec la fonction lumière naturelle. Ici ‘natural_lighting’ est défini pour activer la fonctionnalité. Par défaut, un “mode” de lumière naturelle nommé “default” est créé. Dans pièce “living_room”, la lumière “light.living_room” est lié à ce mode :
-> 
+Le même exemple de configuration avec la fonction lumière naturelle. Ici ‘natural_lighting’ est défini pour activer la fonctionnalité. Par défaut, un “mode” de lumière naturelle nommé “default” est créé. Dans pièce “living_room”, la lumière “light.living_room” est lié à ce mode :
 
 ```yaml
 FullAutomationLights:
@@ -64,14 +59,15 @@ FullAutomationLights:
           lights_entity: light.living_room
 ```
 ---
-> La configuration avancée suivante définit les transitions entre les scènes et l'éclairage naturel avec un temps de transition de 5 secondes pour les scènes et 30 secondes pour l'éclairage naturel.
+La configuration avancée suivante définit les transitions entre les scènes et l'éclairage naturel avec un temps de transition de 5 secondes pour les scènes et 30 secondes pour l'éclairage naturel.
 
-L'éclairage naturel est configuré avec différents paramètres tels que l'entité associée au soleil, les limites de l'angle d'élévation pour la luminosité et la température en Kelvin, ainsi que les modes "primaire" et "secondaire" définis avec leur propre plage de luminosité et de température en Kelvin.
+L'éclairage naturel est configuré avec différents paramètres tels que l'entité associée au soleil, les limites de l'angle d'élévation pour la luminosité et la température en Kelvin, ainsi que les modes "nl1" et "nl2" définis avec leur propre plage de luminosité et de température en Kelvin.
 
-Ensuite, la configuration définit les pièces "salon" et "cuisine". Pour chaque pièce, il définit les entités associées à la présence, à la luminance, à la limite de luminance et aux lumières. Il définit également les modes d'éclairage naturel et les scènes associées à ces pièces. Par exemple, pour le salon, il définit les entités de lumières primaires et secondaires, ainsi que les scènes associées à un éclairage ambiant pour la TV et la TV en marche. La cuisine définit les entités de lumières primaires et secondaires pour cette pièce.
+Ensuite, la configuration définit les pièces "living_room" et "kitchen". Pour chaque pièce, il définit les entités associées à la présence, à la luminance, à la limite de luminance et aux lumières. Il définit également les modes d'éclairage naturel et les scènes associées à ces pièces. Par exemple, pour "living_room", il définit les scènes associées à un éclairage ambiant pour la TV et la TV en marche. Dans les deux pièces, des groupes de lumières differentes sont assossiées aux deux configuration de lumières naturelles "nl1" et "nl2".
 
-"boost_brightness_pct" est utilisé dans les paramètres de "natural_lighting" du salon. Il représente le pourcentage de boost de luminosité pour une lumière spécifique. Dans le cas de la pièce "salon", le mode "primaire" a un boost de luminosité de -30%. Cela signifie que la luminosité sera réduite de 30% pour les lumières spécifiées dans l'entité "lights_entity" (light.salon_primaire).
->
+"boost_brightness_pct" est utilisé dans les paramètres de "natural_lighting" de "living_room". Il représente le pourcentage de boost de luminosité pour une lumière spécifique. Le mode "nl1" a un boost de luminosité de -30%. Cela signifie que la luminosité sera réduite de 30% pour les lumières spécifiées dans l'entité "lights_entity" (light.living_room_group_1).
+
+"hight_luminance_off_light" est également défini à "true" dans "living_room". Cela signifie que, contrairement à "kitchen", si la luminosité captée par "sensor.living_room_luminance" est supérieur à 50 + 5, la lumière s'éteindra. Vu que cette fonctionnalité n'est pas utilisée dans "kitchen", "luminance_hysteresis" n'est pas défini et est donc égal à sa valeur par défaut, à savoir 0.
 
 ```yaml
 FullAutomationLights:
@@ -102,8 +98,8 @@ FullAutomationLights:
     living_room:
       occupancy_entity: binary_sensor.living_room_motion
       luminance_entity: sensor.living_room_luminance
-      luminance_limit: 550
-      luminance_hysteresis: 50
+      luminance_limit: 50
+      luminance_hysteresis: 5
       hight_luminance_off_light: true
       lights_entity: light.living_room
       natural_lighting:
