@@ -209,7 +209,7 @@ Note that the scenes are in a priority order. If both "triggers" are active, "sc
 
 - Clean up of the code and improvement of performance
 
-## Remerciements
+## Thank you
 
 - Thank you to [@jlpouffier](https://github.com/jlpouffier) for introducing me to Appdaemon through his YouTube channel (https://www.youtube.com/@HorizonDomotique).
 - Thank you to ChatGPT for their valuable assistance in writing the documentation and translating it into English.
