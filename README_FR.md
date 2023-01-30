@@ -158,9 +158,9 @@ FullAutomationLights:
     		- `name:` (Optionel) [string] Nom de l'éclairage naturel que l'on souhaite utiliser. Il est possible de définir plusieurs noms différents en fonction des besoins de l'utilisateur, par exemple "primaire" et "secondaire".
     		- `lights_entity:` (Optionel) [string] Eclairage qui sera contrôlée en fonction de l'élévation du soleil.
     		- `boost_brightness_pct:` (Optionel) [integer] Permet d'augmenter ou de diminuer la luminosité de l'éclairage en pourcentage.
-		- `scenes:` (Optionel) Les scènes sont activées lorsqu'un événement est déclanché. Par exemple, un éclairage spécifique lorsque la télévision est allumée.
+		- `scenes:` (Optionel) Les scènes sont activées lorsqu'un événement est declanché. Par exemple, un éclairage spécifique lorsque la télévision est allumée.
     		- `scene_entity:` [string] Scène que l'on souhaite activer. Cette entité peut être une scène ou un script.
-    		- `scene_trigger:` [string] Entité qui déclenche l'activation de la scène définie dans `scene_entity`. Cette entité peut être un interrupteur, un capteur, une télévision ou tout autre élément pouvant envoyer une valeur spécifique.
+    		- `scene_trigger:` [string] Entité qui declenche l'activation de la scène définie dans `scene_entity`. Cette entité peut être un interrupteur, un capteur, une télévision ou tout autre élément pouvant envoyer une valeur spécifique.
     		- `scene_trigger_value:` [] Valeur que doit prendre `scene_trigger` pour que la scène définie dans `scene_entity` soit activée. Par exemple, si "scene_trigger_value" est défini comme "on", la scène ne sera activée que lorsque "scene_trigger" passe à l'état "on".
         
         > Il est possible de définir plusieurs scènes pour chaque pièce en ajoutant plusieurs blocs "scenes" dans la configuration.
