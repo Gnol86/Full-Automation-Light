@@ -130,85 +130,84 @@ FullAutomationLights:
 ### The FullAutomationLights configuration includes the following settings :
 
 - `module:` et `class:` These parameters tell AppDaemon where to find the FullAutomationLights.py file and which class to use to start the application.
-- `debug:` (Optionel) [boolean] This option enables or disables the debugging messages from the application. It is recommended to set it to "true" during the first installation to check that everything is working correctly. The debug function is chatty and slows down the script. For production, it is best to deactivate it. Default: false
-- `transitions:` (Optionel) This section allows for defining custom transitions.
-	- `init:` (Optionel) [integer] duration of the transition in seconds when the script is initialized. Default: 0
-	- `occupancy:` (Optionel) [integer] duration of the transition in seconds when changing state due to the "occupancy_entity" sensor. Default: 1
-	- `low_light:` (Optionel) [integer] Duration of the transition in seconds when changing state due to the "luminance_entity" sensor. Default: 15
-	- `scenes:` (Optionel) [integer] duration of the transition in seconds when changing the scene. Default: 5
+- `debug:` (Optional) [boolean] This option enables or disables the debugging messages from the application. It is recommended to set it to "true" during the first installation to check that everything is working correctly. The debug function is chatty and slows down the script. For production, it is best to deactivate it. Default: false
+- `transitions:` (Optional) This section allows for defining custom transitions.
+	- `init:` (Optional) [integer] duration of the transition in seconds when the script is initialized. Default: 0
+	- `occupancy:` (Optional) [integer] duration of the transition in seconds when changing state due to the "occupancy_entity" sensor. Default: 1
+	- `low_light:` (Optional) [integer] Duration of the transition in seconds when changing state due to the "luminance_entity" sensor. Default: 15
+	- `scenes:` (Optional) [integer] duration of the transition in seconds when changing the scene. Default: 5
 	- `natural_lighting:` (Optionel) [integer] duration of the transition in seconds when changing the natural lighting. Default: 10
-	- `off:` (Optionel) [integer] duration of the transition in seconds when turning off the lights. Default: 3
+	- `off:` (Optional) [integer] duration of the transition in seconds when turning off the lights. Default: 3
 - `natural_lighting:` (Optionel) This section allows configuring natural light management. It includes several sub-parameters.
-	- `sun_entity:` (Optionel) [string] Sun entity from Home Assistant is used to determine the sun elevation. Default: sun.sun
-	- `min_elevation_for_brightness:` et `max_elevation_for_brightness:` : (Optionel) [integer] These parameters determine the range of sun elevation in degrees during which the brightness of the lights is adjusted. Default: -20 and 20
-	- `min_elevation_for_kelvin:` et `max_elevation_for_kelvin:` : (Optionel) [integer] These parameters determine the range of sun elevation in degrees during which the color temperature of the lights is adjusted. Default: 0 and 20
-	- `modes:` (Optionel) This section allows for defining natural light modes for different ranges of sun elevation. Each mode can have the following parameters:
+	- `sun_entity:` (Optional) [string] Sun entity from Home Assistant is used to determine the sun elevation. Default: sun.sun
+	- `min_elevation_for_brightness:` et `max_elevation_for_brightness:` : (Optional) [integer] These parameters determine the range of sun elevation in degrees during which the brightness of the lights is adjusted. Default: -20 and 20
+	- `min_elevation_for_kelvin:` et `max_elevation_for_kelvin:` : (Optional) [integer] These parameters determine the range of sun elevation in degrees during which the color temperature of the lights is adjusted. Default: 0 and 20
+	- `modes:` (Optional) This section allows for defining natural light modes for different ranges of sun elevation. Each mode can have the following parameters:
     	- `name:` The name of the mode. This name is used to link lights to a mode in the room configuration.
-    	- `max_brightness:` et `min_brightness:` (Optionel) [integer] The brightness limits for this mode. Default: 255 and 100
-    	- `max_kelvin:` et `min_kelvin:` (Optionel) [integer] The color temperature limits for this mode. Default: 5500 and 2000
-- `rooms:` Cette section permet de spécifier les paramètres de chaque pièce de la maison.
-	- `nom de la pièce:`
-		- `occupancy_entity:` [string] Entité utilisée pour détecter la présence dans la pièce. Il peut s'agir d'un capteur de mouvement, d'un interrupteur, etc.
-		- `luminance_entity:` (Optionel) [string] Entité est utilisée pour mesurer la luminosité de la pièce.
-		- `luminance_limit:` (Optionel) [integer] Seuil de luminosité en-dessous duquel les lumières de la pièce seront automatiquement allumées. Défaut : 10
-		- `luminance_hysteresis:` (Optionel) [integer] Valeur est utilisée pour définir un intervalle de luminosité autour de `luminance_limit`, dans lequel les lumières de la pièce seront automatiquement allumées ou éteintes. Défaut : 0
-		- `hight_luminance_off_light:` (Optionel) [boolean] Valeur est utilisée pour définir si les lumières de la pièce doivent être éteintes automatiquement en cas de luminosité élevée (supérieure à `luminance_limit` + `luminance_hysteresis`). Défaut : false
-		- `lights_entity:` [string] Entité utilisée pour contrôler les lumières de la pièce. Il peut s'agir d'un groupe de lumières ou d'une lumière individuelle.
-		- `natural_lighting:` (Optionel) Section qui permet de spécifier les paramètres de l'éclairage naturel pour chaque pièce. Il est possible de spécifier différents modes d'éclairage `name:` avec différents paramètres de luminosité et de température de couleur. Il est également possible de spécifier des entités de lumière individuelles pour chaque mode d'éclairage. Si rien n'est spécifié dans cette section, la lumière naturelle 'default' sera utilisée pour la lumière spécifiée dans `lights_entity:`.
-    		- `name:` (Optionel) [string] Nom de l'éclairage naturel que l'on souhaite utiliser. Il est possible de définir plusieurs noms différents en fonction des besoins de l'utilisateur, par exemple "primaire" et "secondaire".
-    		- `lights_entity:` (Optionel) [string] Eclairage qui sera contrôlée en fonction de l'élévation du soleil.
-    		- `boost_brightness_pct:` (Optionel) [integer] Permet d'augmenter ou de diminuer la luminosité de l'éclairage en pourcentage.
-		- `scenes:` (Optionel) Les scènes sont activées lorsqu'un événement est déclanché. Par exemple, un éclairage spécifique lorsque la télévision est allumée.
-    		- `scene_entity:` [string] Scène que l'on souhaite activer. Cette entité peut être une scène ou un script.
-    		- `scene_trigger:` [string] Entité qui déclenche l'activation de la scène définie dans `scene_entity`. Cette entité peut être un interrupteur, un capteur, une télévision ou tout autre élément pouvant envoyer une valeur spécifique.
-    		- `scene_trigger_value:` [] Valeur que doit prendre `scene_trigger` pour que la scène définie dans `scene_entity` soit activée. Par exemple, si "scene_trigger_value" est défini comme "on", la scène ne sera activée que lorsque "scene_trigger" passe à l'état "on".
+    	- `max_brightness:` et `min_brightness:` (Optional) [integer] The brightness limits for this mode. Default: 255 and 100
+    	- `max_kelvin:` et `min_kelvin:` (Optional) [integer] The color temperature limits for this mode. Default: 5500 and 2000
+- `rooms:` This section allows specifying the parameters for each room in the house.
+	- `name of the room:`
+		- `occupancy_entity:` [string] The entity used to detect occupancy in the room. This can be a motion sensor, switch, etc.
+		- `luminance_entity:` (Optional) [string] Entity used to measure the room's luminosity.
+		- `luminance_limit:` (Optional) [integer] The brightness threshold below which the room lights will automatically turn on. Default: 10
+		- `luminance_hysteresis:` (Optional) [integer] Value used to define a range of luminance around `luminance_limit`, within which the lights in the room will be automatically turned on or off. Default: 0
+		- `hight_luminance_off_light:` (Optional) [boolean] Value is used to define if the room lights should be automatically turned off in case of high luminosity (greater than `luminance_limit` + `luminance_hysteresis`). Default: false
+		- `lights_entity:` [string] Light entity used to control the lights in the room. It can be a group of lights or an individual light.
+		- `natural_lighting:` (Optional) This section allows you to specify the natural lighting parameters for each room. You can specify different lighting modes `name:` with different brightness and color temperature parameters. You can also specify individual light entities for each lighting mode.
+    		- `name:` (Optional) [string] Name of the natural lighting that is desired to be used. It is possible to define several different names based on the user's needs, for example "primary" and "secondary".
+    		- `lights_entity:` (Optionel) [string] Entities that will be controlled based on the sun elevation.
+    		- `boost_brightness_pct:` (Optionel) [integer] This setting allows you to increase or decrease the brightness of the lighting by percentage.
+		- `scenes:` (Optional) Scenes are triggered when an event is triggered. For example, specific lighting when the TV is turned on.
+    		- `scene_entity:` [string] Scene that we want to activate. This entity can be a scene or a script.
+    		- `scene_trigger:` [string] The entity that triggers the activation of the scene defined in `scene_entity`. This entity can be a switch, sensor, TV or any other item that can send a specific value.
+    		- `scene_trigger_value:` [] The value that `scene_trigger` must take for the scene defined in `scene_entity` to be activated. For example, if `scene_trigger_value` is set to "on", the scene will only be activated when `scene_trigger` switches to the "on" state.
         
-        > Il est possible de définir plusieurs scènes pour chaque pièce en ajoutant plusieurs blocs "scenes" dans la configuration.
-        Exemple :
-        > 
+It is possible to define multiple scenes for each room by adding multiple "scenes" blocks in the configuration.
+Example:
         
 ```yaml
 scenes:
- - scene_entity: scene.salon_ambilight
+ - scene_entity: scene.ambilight
    scene_trigger: switch.android_tv_ambilight_hue
    scene_trigger_value: "on"
- - scene_entity: scene.salon_tv
+ - scene_entity: scene.tv
    scene_trigger: media_player.android_tv
    scene_trigger_value: "on"
 ```
         
-Ce qui signifie :
-Si le switch "android_tv_ambilight_hue" est allumé, la scène "salon_ambilight" est activée.
-Si le media player "android_tv" est allumé, la scène "salon_tv" est activée.
+It means:
+If the switch "android_tv_ambilight_hue" is turned on, the scene "salon_ambilight" is triggered.
+If the media player "android_tv" is turned on, the scene "salon_tv" is triggered.
 
-Notez que les scènes sont dans un ordre prioritaire. Si les deux "trigger" sont actifs, c’est "scene.salon_ambilight" qui sera activée.
+Note that the scenes are in a priority order. If both "triggers" are active, "scene.salon_ambilight" will be triggered.
 
-## Ordre des opérations
+## Order of operations
 
-- Présence dans la pièce ?
-	- Oui
-		- Luminosité faible ?
-		- Oui
-			- Scène configurée et active ?
-			- Oui
-				- Lancement de la scène active
-			- Non
-				- Lumière naturelle configurée ?
-				- Oui
-					- Allume la lumière en fonction de la lumière naturelle et l'adapte le temps qu'elle est allumée
-				- Non
-					- Allume simplement la lumière
-		- Non
-			- Eteindre si `hight_luminance_off_light` = `true`
-	- Non
-		- Eteindre
+- Presence in the room?
+- Yes
+	- Low luminance?
+	- Yes
+		- Scene configured and active?
+		- Yes
+			- Launch the active scene
+		- No
+			- Natural lighting configured?
+			- Yes
+				- Turn on light based on natural light and adjust while it is on
+			- No
+				- Simply turn on the light
+	- No
+		- Turn off if high_luminance_off_light = true
+- No
+	- Turn off
 
-## Pistes d'amélioration future
+## Future improvement possibilities
 
-- Nettoyage du code et amélioration des performances
+- Clean up of the code and improvement of performance
 
 ## Remerciements
 
-- Merci à @jlpouffier pour m’avoir fait découvrir appdaemon via sa chaine Youtube ([https://www.youtube.com/@HorizonDomotique](https://www.youtube.com/@HorizonDomotique)).
-- Merci à ChatGPT pour son aide précieuse dans la rédaction de la documentation ainsi que sa traduction en anglais.
-- Merci à ma compagne pour la relecture de cette documentation.
+- Thank you to @jlpouffier for introducing me to Appdaemon through his YouTube channel (https://www.youtube.com/@HorizonDomotique).
+- Thank you to ChatGPT for their valuable assistance in writing the documentation and translating it into English.
+- Thank you to my partner for proofreading this documentation.
