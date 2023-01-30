@@ -43,6 +43,7 @@ class FullAutomationLights(hass.Hass):
                             case _:
                                 entity.call_service("turn_on", transition = transition)
                         self.debug_log(f"ON - Scene : {scene['scene_entity']}")
+                        break
             if mode == "" and self.natural_lighting and len(self.rooms[room_name]['natural_lighting']) > 0:
                 for natural_lighting in self.rooms[room_name]['natural_lighting']:
                     mode = 'natural_lighting'
