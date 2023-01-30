@@ -209,6 +209,6 @@ Notez que les scènes sont dans un ordre prioritaire. Si les deux "trigger" sont
 
 ## Remerciements
 
-- Merci à @jlpouffier pour m’avoir fait découvrir appdaemon via sa chaine Youtube ([https://www.youtube.com/@HorizonDomotique](https://www.youtube.com/@HorizonDomotique)).
+- Merci à [@jlpouffier](https://github.com/jlpouffier) pour m’avoir fait découvrir appdaemon via sa chaine Youtube ([https://www.youtube.com/@HorizonDomotique](https://www.youtube.com/@HorizonDomotique)).
 - Merci à ChatGPT pour son aide précieuse dans la rédaction de la documentation ainsi que sa traduction en anglais.
 - Merci à ma compagne pour la relecture de cette documentation.
