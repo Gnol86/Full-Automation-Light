@@ -1,3 +1,5 @@
+[FRANCAIS](README_FR.md)
+
 # Full Automation Lights
 
 ## Introduction
