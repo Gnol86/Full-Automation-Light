@@ -10,7 +10,6 @@ class FullAutomationLights(hass.Hass):
 
     def initialize(self):
         self.debug = self.args['debug'] if 'debug' in self.args else False
-        self.error = ""
         self.log("#--------------------------#")
         self.log("|  Full Automation Lights  |")
         self.log("#--------------------------#")
@@ -20,51 +19,52 @@ class FullAutomationLights(hass.Hass):
         self.transitions = self.init_transitions()
         self.rooms = self.init_rooms()
         
-        if self.error == "":
-            for room_name in self.rooms:
-                self.set_is_light_on(room_name, "init")
-            self.log("Initialized")
-        self.stop()
+        for room_name in self.rooms:
+            self.set_is_light_on(room_name, "init")
+        self.log("Initialized")
 
     def set_light(self, room_name, trigger):
-        transition = self.transitions[trigger] if trigger in self.transitions else 1
-        self.debug_log(f"{room_name} : {trigger}")
-        if self.rooms[room_name]['is_light_on']:
-            mode = ""
-            if 'scenes' in self.rooms[room_name]:
-                for scene in self.rooms[room_name]['scenes']:
+        transition = self.transitions.get(trigger, 1)
+        self.debug_log("{}: {} ({})".format(room_name, trigger, transition))
+        
+        room = self.rooms[room_name]
+        mode = ""
+        
+        if room['is_light_on']:
+            if 'scenes' in room:
+                for scene in room['scenes']:
                     if self.get_state(scene['scene_trigger']) == scene['scene_trigger_value']:
                         mode = "scene"
                         entity = self.get_entity(scene['scene_entity'])
-                        domaine = scene['scene_entity'].split('.')[0]
-                        match domaine:
-                            case "script":
-                                entity.call_service("turn_on")
-                            case _:
-                                entity.call_service("turn_on", transition = transition)
-                        self.debug_log(f"ON - Scene : {scene['scene_entity']}")
+                        domain = scene['scene_entity'].split('.')[0]
+                        if domain == "script":
+                            entity.call_service("turn_on")
+                        else:
+                            entity.call_service("turn_on", transition=transition)
+                        self.debug_log("ON - Scene : {}".format(scene['scene_entity']))
                         break
-            if mode == "" and self.natural_lighting and 'natural_lighting' in self.rooms[room_name]:
-                for natural_lighting in self.rooms[room_name]['natural_lighting']:
+            if mode == "" and self.natural_lighting and 'natural_lighting' in room:
+                for natural_lighting in room['natural_lighting']:
                     mode = 'natural_lighting'
                     brightness = self.natural_lighting['modes'][natural_lighting['name']]['brightness']
                     kelvin = self.natural_lighting['modes'][natural_lighting['name']]['kelvin']
                     entity = self.get_entity(natural_lighting['lights_entity'])
                     if natural_lighting['boost_brightness_pct'] != 0:
-                        brightness=int(brightness+(brightness/100*natural_lighting['boost_brightness_pct']))
-                        if brightness > 255: brightness=255
-                        elif brightness < 1: brightness=1
-                    entity.call_service("turn_on", brightness = brightness, kelvin = kelvin, transition = transition)
+                        brightness = int(brightness + (brightness / 100 * natural_lighting['boost_brightness_pct']))
+                        brightness = 255 if brightness > 255 else brightness
+                        brightness = 1 if brightness < 1 else brightness
+                    entity.call_service("turn_on", brightness=brightness, kelvin=kelvin, transition=transition)
                 self.debug_log("ON - Natural lighting")
             if mode == "":
-                entity = self.get_entity(self.rooms[room_name]['lights_entity'])
-                entity.call_service("turn_on", transition = transition)
+                entity = self.get_entity(room['lights_entity'])
+                entity.call_service("turn_on", transition=transition)
                 self.debug_log("ON")
         else:
             self.debug_log("OFF")
-            entity = self.get_entity(self.rooms[room_name]['lights_entity'])
-            entity.call_service("turn_off", transition = self.transitions['off'])
+            entity = self.get_entity(room['lights_entity'])
+            entity.call_service("turn_off", transition=self.transitions['off'])
         self.debug_log("")
+
 
     def init_rooms(self):
         self.debug_log("Init Rooms...")
@@ -163,7 +163,7 @@ class FullAutomationLights(hass.Hass):
             'init': 0,
             'occupancy': 1,
             'low_light': 15,
-            'scenes': 5,
+            'scene': 10,
             'natural_lighting': 10,
             'off': 3
         }
@@ -276,8 +276,3 @@ class FullAutomationLights(hass.Hass):
 
     def debug_log(self, message):
         if self.debug: self.log(message)
-    
-    def stop(self):
-        if self.error != "":
-            self.log(self.error)
-            self.stop_app(self.name)
