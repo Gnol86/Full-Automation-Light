@@ -111,10 +111,10 @@ FullAutomationLights:
           lights_entity: light.living_room_group_2
       scenes:
         - scene_entity: scene.living_room_ambilight
-          scene_trigger: switch.android_tv_ambilight_hue
+          scene_trigger_entity: switch.android_tv_ambilight_hue
           scene_trigger_value: "on"
         - scene_entity: scene.living_room_tv
-          scene_trigger: media_player.android_tv
+          scene_trigger_entity: media_player.android_tv
           scene_trigger_value: "on"
     kitchen:
       occupancy_entity: binary_sensor.kitchen_motion
@@ -161,8 +161,8 @@ FullAutomationLights:
     		- `boost_brightness_pct:` (Optionel) [integer] Permet d'augmenter ou de diminuer la luminosité de l'éclairage en pourcentage.
 		- `scenes:` (Optionel) Les scènes sont activées lorsqu'un événement est declanché. Par exemple, un éclairage spécifique lorsque la télévision est allumée.
     		- `scene_entity:` [string] Scène que l'on souhaite activer. Cette entité peut être une scène ou un script.
-    		- `scene_trigger:` [string] Entité qui declenche l'activation de la scène définie dans `scene_entity`. Cette entité peut être un interrupteur, un capteur, une télévision ou tout autre élément pouvant envoyer une valeur spécifique.
-    		- `scene_trigger_value:` [] Valeur que doit prendre `scene_trigger` pour que la scène définie dans `scene_entity` soit activée. Par exemple, si "scene_trigger_value" est défini comme "on", la scène ne sera activée que lorsque "scene_trigger" passe à l'état "on".
+    		- `scene_trigger_entity:` [string] Entité qui declenche l'activation de la scène définie dans `scene_entity`. Cette entité peut être un interrupteur, un capteur, une télévision ou tout autre élément pouvant envoyer une valeur spécifique.
+    		- `scene_trigger_value:` [] Valeur que doit prendre `scene_trigger_entity` pour que la scène définie dans `scene_entity` soit activée. Par exemple, si "scene_trigger_value" est défini comme "on", la scène ne sera activée que lorsque "scene_trigger_entity" passe à l'état "on".
         
         > Il est possible de définir plusieurs scènes pour chaque pièce en ajoutant plusieurs blocs "scenes" dans la configuration.
         Exemple :
@@ -171,10 +171,10 @@ FullAutomationLights:
 ```yaml
 scenes:
  - scene_entity: scene.salon_ambilight
-   scene_trigger: switch.android_tv_ambilight_hue
+   scene_trigger_entity: switch.android_tv_ambilight_hue
    scene_trigger_value: "on"
  - scene_entity: scene.salon_tv
-   scene_trigger: media_player.android_tv
+   scene_trigger_entity: media_player.android_tv
    scene_trigger_value: "on"
 ```
         
