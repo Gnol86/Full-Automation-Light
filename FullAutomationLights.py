@@ -6,6 +6,7 @@ import appdaemon.plugins.hass.hassapi as hass
 # https://github.com/Gnol86/FullAutomationLights
 #
 
+
 class FullAutomationLights(hass.Hass):
 
     def initialize(self):
@@ -15,14 +16,25 @@ class FullAutomationLights(hass.Hass):
         self.log("#--------------------------#")
         self.log("")
 
+        # init
+        self.entities = []
         self.natural_lighting = self.init_natural_lighting()
         self.transitions = self.init_transitions()
         self.rooms = self.init_rooms()
         
+        # set all lights
         for room_name in self.rooms:
             self.set_is_light_on(room_name, "init")
         self.log("Initialized")
 
+    # check if all entities is available and return True or False
+        
+    # add entity to list if not exists
+    def add_entity(self, entity):
+        if not entity in self.entities:
+            self.entities.append(entity)
+
+    # set light mode
     def set_light(self, room_name, trigger):
         transition = self.transitions.get(trigger, 1)
         self.debug_log("{}: {} ({})".format(room_name, trigger, transition))
@@ -33,7 +45,7 @@ class FullAutomationLights(hass.Hass):
         if room['is_light_on']:
             if 'scenes' in room:
                 for scene in room['scenes']:
-                    if self.get_state(scene['scene_trigger']) == scene['scene_trigger_value']:
+                    if self.get_state(scene['scene_trigger_entity']) == scene['scene_trigger_value']:
                         mode = "scene"
                         entity = self.get_entity(scene['scene_entity'])
                         domain = scene['scene_entity'].split('.')[0]
@@ -65,7 +77,7 @@ class FullAutomationLights(hass.Hass):
             entity.call_service("turn_off", transition=self.transitions['off'])
         self.debug_log("")
 
-
+    # init rooms config
     def init_rooms(self):
         self.debug_log("Init Rooms...")
         default_room = {
@@ -82,7 +94,6 @@ class FullAutomationLights(hass.Hass):
             }
         default_natural_lighting = {
             "name": "default",
-            "lights_entity": False,
             "boost_brightness_pct": 0
             }
         rooms = {}
@@ -94,7 +105,8 @@ class FullAutomationLights(hass.Hass):
                     self.log(f"'{name}' : 'lights_entity' not exists !!!")
                     del rooms[name]
                     continue
-
+                self.add_entity(rooms[name]['lights_entity'])
+                
                 if 'natural_lighting' in self.args['rooms'][name]:
                     rooms[name]['natural_lighting'] = []
                     if type(self.args['rooms'][name]['natural_lighting']) == list:
@@ -104,22 +116,28 @@ class FullAutomationLights(hass.Hass):
                             rooms[name]['natural_lighting'][nb].update({k: v for k, v in natural_lighting.items()})
                             if not rooms[name]['natural_lighting'][nb]['name'] in self.natural_lighting['modes']:
                                 rooms[name]['natural_lighting'][nb]['name'] = 'default'
+                            if 'natural_entity' in rooms[name]['natural_lighting'][nb]:
+                                self.add_entity(rooms[name]['natural_lighting'][nb]['natural_entity'])
+                            else:
+                                rooms[name]['natural_lighting'][nb]['natural_entity'] = rooms[name]['lights_entity']
+                            
                             nb += 1
                     else:
                         rooms[name]['natural_lighting'][0] = default_natural_lighting.copy()
+                        rooms[name]['natural_lighting'][0]['natural_entity'] = rooms[name]['lights_entity']
                 
                 if 'scenes' in self.args['rooms'][name] and type(self.args['rooms'][name]['scenes']) == list:
                     rooms[name]['scenes'] = self.args['rooms'][name]['scenes']
                     for scene in rooms[name]['scenes']:
                         if ('scene_entity' in scene
                             and self.get_entity(scene['scene_entity']).exists()
-                            and 'scene_trigger' in scene
-                            and self.get_entity(scene['scene_trigger']).exists()
+                            and 'scene_trigger_entity' in scene
+                            and self.get_entity(scene['scene_trigger_entity']).exists()
                             and 'scene_trigger_value' in scene
                             and (scene['scene_entity'].split('.')[0] == "script" or scene['scene_entity'].split('.')[0] == "scene")
                             ):
-                            self.listen_state(self.callback_room, scene['scene_trigger'], new=scene['scene_trigger_value'], room_name=name, trigger="scene")
-                            self.listen_state(self.callback_room, scene['scene_trigger'], old=scene['scene_trigger_value'], room_name=name, trigger="scene")
+                            self.listen_state(self.callback_room, scene['scene_trigger_entity'], new=scene['scene_trigger_value'], room_name=name, trigger="scene")
+                            self.listen_state(self.callback_room, scene['scene_trigger_entity'], old=scene['scene_trigger_value'], room_name=name, trigger="scene")
                     
                 if rooms[name]['occupancy_entity'] and self.get_entity(rooms[name]['occupancy_entity']).exists():
                     if rooms[name]['occupancy_off_delay'] > 0:
@@ -135,9 +153,11 @@ class FullAutomationLights(hass.Hass):
         self.debug_log("")
         return rooms
 
+    # callback for occupancy and luminance
     def callback_room(self, entity, attribute, old, new, kwargs):
         self.set_is_light_on(kwargs['room_name'], kwargs['trigger'])
 
+    # set if light is on or off
     def set_is_light_on(self, room_name, trigger):
         if self.rooms[room_name]['occupancy_entity']:
             self.rooms[room_name]['occupancy'] = True if self.get_state(self.rooms[room_name]['occupancy_entity']) in ["on","home",True,"true","True"] else False
@@ -146,7 +166,7 @@ class FullAutomationLights(hass.Hass):
             luminance_limit = self.int(self.rooms[room_name]['luminance_limit'])
             if self.rooms[room_name]['low_light']:
                 luminance_limit += self.int(self.rooms[room_name]['luminance_hysteresis'])
-            else:
+            else: 
                 luminance_limit -= self.int(self.rooms[room_name]['luminance_hysteresis'])
             self.rooms[room_name]['low_light'] = True if self.int(self.get_state(self.rooms[room_name]['luminance_entity'])) <= luminance_limit else False
 
@@ -157,8 +177,8 @@ class FullAutomationLights(hass.Hass):
         if trigger in ["init", "scene", "natural_lighting"] or old_is_light_on != self.rooms[room_name]['is_light_on']:
             self.set_light(room_name, trigger)
 
+    # Initialize default transitions dictionary
     def init_transitions(self):
-        # Initialize default transitions dictionary
         transitions = {
             'init': 0,
             'occupancy': 1,
@@ -219,7 +239,8 @@ class FullAutomationLights(hass.Hass):
         
         # Get sun entity from natural lighting arguments
         sun_entity = nl_args.get('sun_entity', 'sun.sun')
-        
+        self.add_entity(sun_entity)
+
         # Update natural lighting with values from natural lighting arguments
         natural_lighting.update({k: v for k, v in nl_args.items() if k in ['min_elevation_for_brightness', 'max_elevation_for_brightness', 'min_elevation_for_kelvin', 'max_elevation_for_kelvin']})
         
@@ -233,6 +254,7 @@ class FullAutomationLights(hass.Hass):
         # Set natural lighting
         natural_lighting = self.set_natural_lighting(natural_lighting)
         
+        self.debug_log(natural_lighting)
         self.debug_log("Natural Lighting Initialized")
         self.debug_log("")
         return natural_lighting
@@ -265,10 +287,11 @@ class FullAutomationLights(hass.Hass):
         self.debug_log("---")
         return natural_lighting
 
+    # Retunr scaled value based on the source and destination ranges
     def scale(self, val, src, dst):
-        # Retunr scaled value based on the source and destination ranges
         return self.int((min(max(val, src[0]), src[1]) - src[0]) / (src[1]-src[0]) * (dst[1]-dst[0]) + dst[0])
 
+    # Return integer value from string
     def int(self, val):
         if val in ['unknown', 'unavailable']:
             return 0
