@@ -270,9 +270,12 @@ class FullAutomationLights(hass.Hass):
         return self.int((min(max(val, src[0]), src[1]) - src[0]) / (src[1]-src[0]) * (dst[1]-dst[0]) + dst[0])
 
     def int(self, val):
-        if type(val) == str or type(val) == float:
+        if val in ['unknown', 'unavailable']:
+            return 0
+        try:
             return int(float(val))
-        return val
+        except:
+            return val
 
     def debug_log(self, message):
         if self.debug: self.log(message)
