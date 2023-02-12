@@ -133,8 +133,8 @@ FullAutomationLights:
 - `module:` et `class:` Ces paramètres indiquent à AppDaemon où trouver le fichier FullAutomationLights.py et quelle classe utiliser pour démarrer l'application.
 - `debug:` (Optionel) [boolean] Cette option permet d'activer ou de désactiver les messages de débogage de l'application. Il est conseillé de la mettre à "true" lors de la première installation pour vérifier que tout fonctionne correctement. La fonction débug est bavarde et ralenti le script. Pour la mise en production, il est préférable de la désactiver. Défaut : false
 - `transitions:` (Optionel) Cette section permet de définir des transitions personalisées.
-	- `init:` (Optionel) [integer] durée de la transition en secondes lors de l’initialisation du script. Défaut : 0
-	- `occupancy:` (Optionel) [integer] durée de la transition en secondes lors du changement d’état dû au capteur “occupancy_entity”. Défaut : 1
+	- `init:` (Optionel) [integer] durée de la transition en secondes lors de l’initialisation du script. Défaut : None
+	- `occupancy:` (Optionel) [integer] durée de la transition en secondes lors du changement d’état dû au capteur “occupancy_entity”. Défaut : None
 	- `low_light:` (Optionel) [integer] durée de la transition en secondes lors du changement d’état dû au capteur “luminance_entity”. Défaut : 15
 	- `scenes:` (Optionel) [integer] durée de la transition en secondes lors du changement de scène. Défaut : 5
 	- `natural_lighting:` (Optionel) [integer] durée de la transition en secondes lors du changement de la lumière naturelle. Défaut : 10
