@@ -135,8 +135,8 @@ FullAutomationLights:
 - `module:` et `class:` These parameters tell AppDaemon where to find the FullAutomationLights.py file and which class to use to start the application.
 - `debug:` (Optional) [boolean] This option enables or disables the debugging messages from the application. It is recommended to set it to "true" during the first installation to check that everything is working correctly. The debug function is chatty and slows down the script. For production, it is best to deactivate it. Default: false
 - `transitions:` (Optional) This section allows for defining custom transitions.
-	- `init:` (Optional) [integer] duration of the transition in seconds when the script is initialized. Default: 0
-	- `occupancy:` (Optional) [integer] duration of the transition in seconds when changing state due to the "occupancy_entity" sensor. Default: 1
+	- `init:` (Optional) [integer] duration of the transition in seconds when the script is initialized. Default: None
+	- `occupancy:` (Optional) [integer] duration of the transition in seconds when changing state due to the "occupancy_entity" sensor. Default: None
 	- `low_light:` (Optional) [integer] Duration of the transition in seconds when changing state due to the "luminance_entity" sensor. Default: 15
 	- `scenes:` (Optional) [integer] duration of the transition in seconds when changing the scene. Default: 5
 	- `natural_lighting:` (Optionel) [integer] duration of the transition in seconds when changing the natural lighting. Default: 10
